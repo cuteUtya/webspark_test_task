@@ -21,12 +21,23 @@ class HomeScreen extends StatelessWidget {
             const Spacer(),
             Center(
               child: TextButton(
-                //TODO validate the URL
-                onPressed: () => Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (d) => ProcessScreen(apiUrl: controller.text),
-                  ),
-                ),
+                onPressed: () {
+                  if (!Uri.parse(controller.text).isAbsolute) {
+                    showDialog(
+                      context: context,
+                      builder: (e) => AlertDialog(
+                        title: Text('URL is invalid'),
+                      ),
+                    );
+                    return;
+                  }
+
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (d) => ProcessScreen(apiUrl: controller.text),
+                    ),
+                  );
+                },
                 style: ButtonStyle(
                   backgroundColor: WidgetStateProperty.all(Colors.blueAccent),
                 ),

@@ -33,7 +33,6 @@ class _ProcessScreenState extends State<ProcessScreen> {
   }
 
   void process() async {
-
     setProgress(0.2, s: 'Fetching tasks');
     var tasks = await api.fetchTasks();
     setProgress(0.5, s: 'Starting process tasks');
@@ -56,7 +55,7 @@ class _ProcessScreenState extends State<ProcessScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Home screen'),
+        title: const Text('Process screen'),
         backgroundColor: Colors.blueGrey,
       ),
       body: Padding(
@@ -78,12 +77,14 @@ class _ProcessScreenState extends State<ProcessScreen> {
             if (progress == 1)
               TextButton(
                 onPressed: () async {
-                    var r = await api.checkTask(calculationResults);
+                  setProgress(0.5, s: 'Sending data to server');
+                  var r = await api.checkTask(calculationResults);
 
-
+                  Navigator.of(context).pop();
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (e) => ResultListScreen(results: calculationResults),
+                      builder: (e) =>
+                          ResultListScreen(results: calculationResults),
                     ),
                   );
                 },
